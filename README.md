@@ -1,8 +1,10 @@
-# AI-Driven Prediction of Worst-Case Response Times (WCRT) in Fixed-Priority Real-Time Systems
+# AI-Driven Schedulability Assessment and Worst-Case Response Time Prediction in Fixed-Priority Uniprocessor Real-Time Systems
+
 
 This repository contains the full implementation, models, and reproducibility artefacts for the MSc dissertation project:
 
-**"AI-Driven Prediction of Worst-Case Response Times in Fixed-Priority Uniprocessor Real-Time Systems"**
+**"AI-Driven Schedulability Assessment and Worst-Case Response Time Prediction in Fixed-Priority Uniprocessor Real-Time Systems
+"**
 
 ---
 
@@ -24,20 +26,58 @@ The implementation follows the design described in the dissertation and is align
 ## 📂 Repository Structure
 
 ```bash
-├── data/                # Scripts to generate and preprocess synthetic datasets
-├── models/              # Trained ML model checkpoints (classification + regression)
-├── notebooks/           # Jupyter notebooks for experiments and figures
-├── src/                 # Core Python source code
-│   ├── generation/      # UUniFast + Emberson-based task generation
-│   ├── rta/             # Response-Time Analysis (labelling)
-│   ├── classification/  # Classification models & evaluation
-│   ├── regression/      # Regression models & evaluation
-│   ├── calibration/     # Safety wrapper (CQR, abstention)
-│   └── utils/           # Helper functions, plotting, metrics
-├── requirements.txt     # Python dependencies
-├── environment.yml      # Conda environment (optional)
-├── README.md            # This file
-└── LICENSE
+├── data/
+│   └── main_dataset_metadata.json
+├── figures/
+│   ├── confusion_matrices/
+│   │   ├── logistic_regression_basic_cm.png
+│   │   ├── logistic_regression_engineered_cm.png
+│   │   ├── random_forest_basic_cm.png
+│   │   ├── random_forest_engineered_cm.png
+│   │   ├── xgboost_basic_cm.png
+│   │   └── xgboost_engineered_cm.png
+│   ├── clf_roc_overlay.png
+│   ├── clf_xgb_feature_importances.png
+│   ├── coverage_vs_util.png
+│   ├── error_stratification.png
+│   ├── improved_cqr_plot.png
+│   ├── safety_distribution.png
+│   ├── threshold_optimization.png
+│   └── underestimation_analysis.png
+├── models/
+│   ├── classification_models/
+│   │   ├── logistic_regression_basic.pkl
+│   │   ├── logistic_regression_basic_cv.json
+│   │   ├── logistic_regression_engineered.pkl
+│   │   ├── logistic_regression_engineered_cv.json
+│   │   ├── random_forest_basic.pkl
+│   │   ├── random_forest_basic_cv.json
+│   │   ├── random_forest_engineered.pkl
+│   │   ├── random_forest_engineered_cv.json
+│   │   ├── xgboost_basic.pkl
+│   │   ├── xgboost_basic_cv.json
+│   │   ├── xgboost_engineered.pkl
+│   │   └── xgboost_engineered_cv.json
+│   └── regression_models/
+│       ├── base_linear_regression.pkl
+│       ├── base_random_forest.pkl
+│       ├── base_xgboost.pkl
+│       ├── cqr_lower_model.pkl
+│       ├── eng_random_forest.pkl
+│       ├── eng_xgboost.pkl
+│       ├── linear_regression_regressor.pkl
+│       ├── random_forest_regressor.pkl
+│       └── xgboost_regressor.pkl
+├── notebooks/
+│   ├── classification.ipynb
+│   ├── dataset_generation.ipynb
+│   └── regression.ipynb
+├── results/
+│   ├── results_base.csv
+│   ├── results_comparison.csv
+│   └── results_engineered.csv
+├── README.md
+
 ```
 
 ---
@@ -74,19 +114,6 @@ Additional engineered features are included for ML pipelines.
 * Python 3.9+
 * Recommended: Conda or virtualenv
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Or with Conda:
-
-```bash
-conda env create -f environment.yml
-conda activate rta-ml
-```
-
 ### Reproducibility
 
 * All experiments are seeded with `42`
@@ -95,47 +122,11 @@ conda activate rta-ml
 
 ---
 
-## 🚀 Usage
-
-### 1. Generate synthetic dataset (optional)
-
-```bash
-python src/generation/generate_dataset.py --n_sets 10000 --out data/small_dataset.csv
-```
-
-### 2. Label dataset with Response-Time Analysis
-
-```bash
-python src/rta/label_dataset.py --input data/small_dataset.csv --output data/labeled.csv
-```
-
-### 3. Run classification pipeline
-
-```bash
-python src/classification/train_classifier.py --input data/labeled.csv --model xgboost
-```
-
-### 4. Run regression pipeline
-
-```bash
-python src/regression/train_regressor.py --input data/labeled.csv --model random_forest
-```
-
-### 5. Apply safety calibration (CQR)
-
-```bash
-python src/calibration/apply_cqr.py --input results/regression_preds.csv
-```
-
----
-
 ## 📈 Evaluation
 
 * **Classification:** Accuracy, F1, ROC-AUC, false positives per utilization band
 * **Regression:** MAE, RMSE, R², underestimation rate
 * **Calibration:** Coverage, interval width, abstention rate
-
-Results are stored in `results/` with generated plots (ROC curves, residuals, coverage–abstention trade-offs).
 
 ---
 
@@ -162,9 +153,9 @@ This repository is released under the MIT License.
 If you use this work in academic research, please cite the dissertation:
 
 ```bibtex
-@mastersthesis{qadirov2025,
-  title={AI-Driven Prediction of Worst-Case Response Times in Fixed-Priority Uniprocessor Real-Time Systems},
-  author={Qadirov, M.K.},
+@mastersthesis{gadirov2025,
+  title={AI-Driven Schedulability Assessment and Worst-Case Response Time Prediction in Fixed-Priority Uniprocessor Real-Time Systems},
+  author={Gadirov, M.K.},
   year={2025},
   school={University of Leeds}
 }
@@ -174,7 +165,7 @@ If you use this work in academic research, please cite the dissertation:
 
 ## 🙌 Acknowledgements
 
-* Supervisor: \[Supervisor’s Name], University of Leeds
+* Supervisor: Professor Leandro Soares Indrusiak, University of Leeds
 * Funding: Azerbaijan Government Scholarship
 * External references: Bini & Buttazzo (2005), Baruah et al. (2025), Kumar et al. (2024)
 
